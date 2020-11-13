@@ -8,6 +8,7 @@ namespace Whiteboard.API.Models
         public int PosX { get; set; }
         public int PosY { get; set; }
         public string Content { get; set; }
+        public bool IsCollapsed { get; set; }
         public string ColorCode { get; set; }
         public int WhiteboardId { get; set; }
         public WhiteboardItem Whiteboard { get; set; }
