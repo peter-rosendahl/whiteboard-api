@@ -73,13 +73,6 @@ namespace Whiteboard.API.Controllers
             return StatusCode(500);
         }
 
-        [HttpGet("version")]
-        public IActionResult Version() {
-            return Ok(new {
-                version = "0.1.0"
-            });
-        }
-
         private string CreateToken(User user)
         {
             Claim[] claims = new[]
