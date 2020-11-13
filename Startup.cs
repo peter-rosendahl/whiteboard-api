@@ -38,6 +38,7 @@ namespace Whiteboard.API
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IWhiteboardRepository, WhiteboardRepository>();
             services.AddScoped<IPostitRepository, PostitRepository>();
+            services.AddScoped<IVersionRepository, VersionRepository>();
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

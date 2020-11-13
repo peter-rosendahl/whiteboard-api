@@ -33,7 +33,6 @@ C:\Users\pete8\code\Whiteboard\Whiteboard.API\bin\Debug\netcoreapp3.1\runtimes\w
 C:\Users\pete8\code\Whiteboard\Whiteboard.API\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\e_sqlite3.dll
 C:\Users\pete8\code\Whiteboard\Whiteboard.API\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\e_sqlite3.dll
 C:\Users\pete8\code\Whiteboard\Whiteboard.API\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\e_sqlite3.dll
-C:\Users\pete8\code\Whiteboard\Whiteboard.API\obj\Debug\netcoreapp3.1\Whiteboard.API.csprojAssemblyReference.cache
 C:\Users\pete8\code\Whiteboard\Whiteboard.API\obj\Debug\netcoreapp3.1\Whiteboard.API.AssemblyInfoInputs.cache
 C:\Users\pete8\code\Whiteboard\Whiteboard.API\obj\Debug\netcoreapp3.1\Whiteboard.API.AssemblyInfo.cs
 C:\Users\pete8\code\Whiteboard\Whiteboard.API\obj\Debug\netcoreapp3.1\Whiteboard.API.csproj.CoreCompileInputs.cache
