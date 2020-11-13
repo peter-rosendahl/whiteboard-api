@@ -32,6 +32,7 @@ namespace Whiteboard.API.Data
             note.Height = 166;
             note.PosX = random.Next(0, 100);
             note.PosY = random.Next(0, 100);
+            note.IsCollapsed = false;
 
             int r = random.Next(150,255);
             int g = random.Next(150,255);
@@ -82,6 +83,7 @@ namespace Whiteboard.API.Data
             note.PosY = postit.PosY;
             note.Width = postit.Width;
             note.Height = postit.Height;
+            note.IsCollapsed = postit.IsCollapsed;
 
             await _context.SaveChangesAsync();
 
