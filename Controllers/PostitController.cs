@@ -31,6 +31,12 @@ namespace Whiteboard.API.Controllers
             return await _repo.CreatePostit(boardId);
         }
 
+        [HttpPost("Copy")]
+        public async Task<Postit> CopyPostit(int postitId, int boardId)
+        {
+            return await _repo.CopyPostit(postitId, boardId);
+        }
+
         [HttpPut("Update")]
         public async Task<Postit> UpdatePostit(Postit postit)
         {

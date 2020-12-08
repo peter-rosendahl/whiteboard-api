@@ -16,6 +16,31 @@ namespace Whiteboard.API.Data
             _context = context;
         }
 
+        public async Task<Postit> CopyPostit(int postitId, int boardId)
+        {
+            WhiteboardItem board = await _context.Whiteboard.FirstOrDefaultAsync(x => x.Id == boardId);
+            Postit postit = await _context.Postit.FirstOrDefaultAsync(y => y.Id == postitId);
+
+            if (board == null || postit == null) {
+                return null;
+            }
+
+            Postit newNote = new Postit();
+            newNote.WhiteboardId = board.Id;
+            newNote.Content = postit.Content;
+            newNote.Width = postit.Width;
+            newNote.Height = postit.Height;
+            newNote.PosX = postit.PosX;
+            newNote.PosY = postit.PosY;
+            newNote.IsCollapsed = postit.IsCollapsed;
+            newNote.ColorCode = postit.ColorCode;
+
+            await _context.Postit.AddAsync(newNote);
+            await _context.SaveChangesAsync();
+
+            return newNote;
+        }
+
         public async Task<Postit> CreatePostit(int boardId)
         {
             WhiteboardItem board = await _context.Whiteboard.FirstOrDefaultAsync(x => x.Id == boardId);
@@ -84,6 +109,7 @@ namespace Whiteboard.API.Data
             note.Width = postit.Width;
             note.Height = postit.Height;
             note.IsCollapsed = postit.IsCollapsed;
+            note.WhiteboardId = postit.WhiteboardId;
 
             await _context.SaveChangesAsync();
 
