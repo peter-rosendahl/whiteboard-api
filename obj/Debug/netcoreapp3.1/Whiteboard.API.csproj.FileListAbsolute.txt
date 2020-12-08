@@ -82,3 +82,4 @@ C:\Users\pete8\code\Whiteboard\Whiteboard.API\bin\Debug\netcoreapp3.1\Microsoft.
 C:\Users\pete8\code\Whiteboard\Whiteboard.API\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.dll
 C:\Users\pete8\code\Whiteboard\Whiteboard.API\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Users\pete8\code\Whiteboard\Whiteboard.API\bin\Debug\netcoreapp3.1\Properties\ServiceDependencies\WhiteboardAPI - Web Deploy\profile.arm.json
+C:\Users\pete8\code\Whiteboard\Whiteboard.API\obj\Debug\netcoreapp3.1\Whiteboard.API.csprojAssemblyReference.cache
