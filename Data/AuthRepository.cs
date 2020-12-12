@@ -30,7 +30,7 @@ namespace Whiteboard.API.Data
             return user;
         }
 
-        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+        public bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
             using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt))
             {
@@ -82,6 +82,11 @@ namespace Whiteboard.API.Data
             }
 
             return false;
+        }
+
+        public async Task<User> GetUser(string username)
+        {
+            return await _context.User.FirstOrDefaultAsync(x => x.Username == username);
         }
     }
 }

@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using Whiteboard.API.Data;
 using Whiteboard.API.DTO;
 using Whiteboard.API.Models;
+using System.Text.RegularExpressions;
 
 namespace Whiteboard.API.Controllers
 {
@@ -39,18 +40,38 @@ namespace Whiteboard.API.Controllers
                 return BadRequest("Already exists");
             }
 
+            // TODO: Validate password before registering member.
+
+            if (ValidateUser(user) == false) 
+            {
+                return BadRequest(new {
+                    status = 401,
+                    message = "Invalid input values"
+                });
+            }
+
             var userToCreate = new User
             {
                 Username = user.Username,
                 Email = user.Email
             };
 
-            var createdUser = await _authRepo.Register(userToCreate, user.Password);
-            if (createdUser != null) {
-                await _boardRepo.CreateWhiteboard(createdUser.Id, "Board 1");
-            }
+            User createdUser = await _authRepo.Register(userToCreate, user.Password);
 
-            return StatusCode(201);
+            if (createdUser == null) {
+                return StatusCode(500);
+            } 
+            else 
+            {
+                await _boardRepo.CreateWhiteboard(createdUser.Id, "Board 1");
+
+                string userToken = CreateToken(createdUser);
+                return Ok(new {
+                    id = createdUser.Id,
+                    username = createdUser.Username,
+                    token = userToken
+                });
+            }
         }
 
         [HttpPost("login")]
@@ -58,9 +79,22 @@ namespace Whiteboard.API.Controllers
         {
             user.Username = user.Username.ToLower();
 
-            User userFromDb = await _authRepo.Login(user.Username, user.Password);
+            User userFromDb = await _authRepo.GetUser(user.Username);
+            // User userFromDb = await _authRepo.Login(user.Username, user.Password);
 
-            if (userFromDb != null)
+            if (userFromDb == null)
+            {
+                return NotFound(new {
+                    status = 404,
+                    message = "Member with the provided username does not exist."
+                });
+            }
+
+            bool inputsAreValid = ValidateUser(user);
+
+            bool passwordIsVerified = _authRepo.VerifyPasswordHash(user.Password, userFromDb.PasswordHash, userFromDb.PasswordSalt);
+
+            if (inputsAreValid && passwordIsVerified)
             {
                 string userToken = CreateToken(userFromDb);
                 return Ok(new {
@@ -70,7 +104,38 @@ namespace Whiteboard.API.Controllers
                 });
             }
 
-            return StatusCode(500);
+            return Unauthorized(new {
+                status = 401,
+                message = "Incorrect password."
+            });
+        }
+
+        [HttpPost("userexists")]
+        public async Task<IActionResult> UserExists(string username)
+        {
+            User user = await _authRepo.GetUser(username);
+
+            if (user != null)
+            {
+                return Ok(new {message = "Username exists already"});
+            } 
+            else 
+            {
+                return NoContent();
+            }
+        }
+
+        private Boolean ValidateUser(UserLoginDTO user, string userEmail = null)
+        {
+            Regex passwordRegex = new Regex(@"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$");
+            Regex dirtyStringRegex = new Regex(@"[</>#;$%&!?:*()=+`~{}[|\]']");
+            Regex mailRegex = new Regex(@"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$");
+
+            bool mailValid = userEmail != null ? mailRegex.Match(userEmail).Success && (dirtyStringRegex.Match(userEmail).Success == false) : true;
+            bool passwordValid = passwordRegex.Match(user.Password).Success && (dirtyStringRegex.Match(user.Password).Success == false);
+            bool usernameIsClean = (dirtyStringRegex.Match(user.Username).Success == false);
+
+            return (mailValid && passwordValid && usernameIsClean);
         }
 
         private string CreateToken(User user)

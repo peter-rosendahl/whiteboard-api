@@ -9,5 +9,7 @@ namespace Whiteboard.API.Data
          Task<User> Login(string username, string password);
          Task<bool> UserExists(string username);
          Task<User> Update(User user);
+         Task<User> GetUser(string username);
+         bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt);
     }
 }
