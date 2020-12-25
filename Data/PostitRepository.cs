@@ -59,9 +59,9 @@ namespace Whiteboard.API.Data
             note.PosY = random.Next(0, 100);
             note.IsCollapsed = false;
 
-            int r = random.Next(150,255);
-            int g = random.Next(150,255);
-            int b = random.Next(150,255);
+            int r = random.Next(200,255);
+            int g = random.Next(200,255);
+            int b = random.Next(200,255);
             note.ColorCode = "rgba(" + r + "," + g + "," + b + ", 1)";
 
             await _context.Postit.AddAsync(note);
